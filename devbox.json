@@ -1,0 +1,69 @@
+{
+  "env": {
+    "L1X_CFG_CHAIN_TYPE": "beta_mainnet",
+    "L1X_CFG_TOOLS": "kevincoutinho007/l1x-toolkit:0.1",
+    "L1X_CFG_ARTIFACTS": "./l1x-artifacts",
+    "L1X_CFG_DC_FILE": "./devnet-services-dc.yml",
+    "L1X_CFG_CASSANDRA1_DATA": "./l1x-conf/cassandra1_data",
+    "L1X_CFG_CASSANDRA2_DATA": "./l1x-conf/cassandra2_data",
+    "L1X_CFG_CASSANDRA_HOST": "127.0.0.1",
+    "L1X_CFG_CASSANDRA_PORT": "9042"
+  },
+  "shell": {
+    "scripts": {
+      "init_setup": [
+        "echo Initializing Setup",
+        "if [ ! -d $L1X_CFG_ARTIFACTS ]; then mkdir $L1X_CFG_ARTIFACTS; fi",
+        "if [ ! -d $L1X_CFG_CASSANDRA1_DATA ]; then mkdir $L1X_CFG_CASSANDRA1_DATA; fi",
+        "if [ ! -d $L1X_CFG_CASSANDRA2_DATA ]; then mkdir $L1X_CFG_CASSANDRA2_DATA; fi"
+      ],
+      "start_devnode": [
+        "echo 'Start L1X devnode services...'",
+        "devbox run init_setup",
+        "devbox services up"
+      ],
+      "stop_devnode": [
+        "echo 'Stop L1X devnode services...'",
+        "devbox services stop",
+        "docker-compose -f $L1X_CFG_DC_FILE down",
+        "echo 'Stop L1X devnode services... Done!!!'"
+      ],
+      "prune_devnode": [
+        "echo 'Prune L1X devnode service resources...'",
+        "docker-compose -f $L1X_CFG_DC_FILE down",
+        "sudo rm -Rf $L1X_CFG_CASSANDRA1_DATA/*",
+        "sudo rm -Rf $L1X_CFG_CASSANDRA2_DATA/*"
+      ],
+      "check_chain_state": [
+        "echo 'Get L1X chain state...'",
+        "docker-compose -f $L1X_CFG_DC_FILE run --rm l1x-tools-get-chain-state"
+      ],
+      "check_devnet_db_state": [
+        "echo 'Get L1X chain state...'",
+        "cqlsh -e 'SELECT * FROM system.local;' $L1X_CFG_CASSANDRA_HOST $L1X_CFG_CASSANDRA_PORT"
+      ],
+      "compile": [
+        "echo \"Compiling $1 contract...\"",
+        "devbox run init_setup",
+		    "RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release -p $1 || exit $?",
+        "cp target/wasm32-unknown-unknown/release/${1//-/_}.wasm $L1X_CFG_ARTIFACTS/.",
+        "docker-compose -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-ir",
+        "docker-compose -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-bpf"
+      ],
+	  "compile_all": [
+        "echo 'Compiling all contract...'",
+        "devbox run compile xtalk-nft-ad-flow-contract",
+        "devbox run compile source-registry",
+        "devbox run compile xtalk-swap-flow",
+        "devbox run compile l1x-transfer-token",
+        "devbox run compile l1x-cross-contract",
+        "devbox run compile l1x-evm-cross-contract",
+        "devbox run compile l1x-contract",
+        "devbox run compile l1x-nft",
+        "devbox run compile l1x-ft"
+	  ],
+      "11_clean": ["cargo clean", "rm -Rf $L1X_CFG_ARTIFACTS/*.*"],
+      "11_clean_logs": ["rm -Rf ./devbox-services.log"]
+    }
+  }
+}
