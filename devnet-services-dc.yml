@@ -55,7 +55,7 @@ services:
     entrypoint: /bin/bash -l
     command: >
           -c '
-            ./l1x-ws/l1x-conf/l1x-tools-intf.sh start-devnode
+            /home/l1x/l1x-ws/l1x-conf/l1x-tools-intf.sh start-devnode
           '
     ports:
       - 50051:50051
@@ -74,7 +74,7 @@ services:
     entrypoint: /bin/bash -l
     command: >
           -c '
-            ./l1x-ws/l1x-conf/l1x-tools-intf.sh gen-ir
+          /home/l1x/l1x-ws/l1x-conf/l1x-tools-intf.sh gen-ir
           '
 
   l1x-tools-intf-gen-bpf:
@@ -84,7 +84,7 @@ services:
     entrypoint: /bin/bash -l
     command: >
           -c '
-            ./l1x-ws/l1x-conf/l1x-tools-intf.sh gen-bpf
+            /home/l1x/l1x-ws/l1x-conf/l1x-tools-intf.sh gen-bpf
           '
 
   l1x-tools-get-account-state:
@@ -98,7 +98,7 @@ services:
     entrypoint: /bin/bash -l
     command: >
           -c '
-            ./l1x-ws/l1x-conf/l1x-tools-intf.sh get-acc-state
+            /home/l1x/l1x-ws/l1x-conf/l1x-tools-intf.sh get-acc-state
           '
   l1x-tools-get-chain-state:
     image: $L1X_CFG_TOOLS
@@ -111,7 +111,7 @@ services:
     entrypoint: /bin/bash -l
     command: >
           -c '
-            ./l1x-ws/l1x-conf/l1x-tools-intf.sh get-chain-state
+            /home/l1x/l1x-ws/l1x-conf/l1x-tools-intf.sh get-chain-state
           '
   l1x-tools-intf-sub-txn:
     image: $L1X_CFG_TOOLS
@@ -124,7 +124,7 @@ services:
     entrypoint: /bin/bash -l
     command: >
           -c '
-            ./l1x-ws/l1x-conf/l1x-tools-intf.sh sub-txn
+            /home/l1x/l1x-ws/l1x-conf/l1x-tools-intf.sh sub-txn
           '
 
   l1x-tools-intf-read-only-func-call:
@@ -138,7 +138,7 @@ services:
     entrypoint: /bin/bash -l
     command: >
           -c '
-            ./l1x-ws/l1x-conf/l1x-tools-intf.sh read-only-func-call
+            /home/l1x/l1x-ws/l1x-conf/l1x-tools-intf.sh read-only-func-call
           '
 
 networks:
