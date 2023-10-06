@@ -1,5 +1,4 @@
 use borsh::{BorshDeserialize, BorshSerialize};
-use l1x_sdk::types::Address;
 use l1x_sdk::{contract, store::LookupMap, types::U64};
 use serde::{Deserialize, Serialize};
 
@@ -81,10 +80,9 @@ impl SourceRegistry {
             op: Operation::Create,
         };
 
-        let index = {
-            contract.index.0 = contract.index.0 + 1;
-            contract.index
-        };
+        let index = U64::from(contract.index.0);
+        contract.index.0 = contract.index.0 + 1;
+       
         contract.sources.set(index, Some(source_op));
         contract.save();
         Ok(index)
@@ -96,10 +94,8 @@ impl SourceRegistry {
             let mut source_op = source_op.clone();
             source_op.op = Operation::Remove;
 
-            let index = {
-                contract.index.0 = contract.index.0 + 1;
-                contract.index
-            };
+            let index = U64::from(contract.index.0);
+            contract.index.0 = contract.index.0 + 1;
             contract.sources.set(index, Some(source_op));
             contract.save();
         }
@@ -109,7 +105,7 @@ impl SourceRegistry {
         let contract = Self::load();
         let mut sources: Vec<EventSourceOp> = vec![];
         let mut from_index = from_index;
-        let to_index = contract.index.0;
+        let to_index = contract.index.0 + 1;
         for index in from_index.0..to_index {
             if let Some(source_op) = contract.sources.get(&U64::from(index)) {
                 sources.push(source_op.clone());
