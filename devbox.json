@@ -1,7 +1,7 @@
 {
   "env": {
     "L1X_CFG_CHAIN_TYPE": "beta_mainnet",
-    "L1X_CFG_TOOLS": "l1x-toolkit",
+    "L1X_CFG_TOOLS": "kevincoutinho007/l1x-toolkit:0.1",
     "L1X_CFG_ARTIFACTS": "./l1x-artifacts",
     "L1X_CFG_DC_FILE": "./devnet-services-dc.yml",
     "L1X_CFG_CASSANDRA1_DATA": "./l1x-conf/cassandra1_data",
@@ -45,12 +45,12 @@
       "compile": [
         "echo \"Compiling $1 contract...\"",
         "devbox run init_setup",
-        "RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release -p $1 || exit $?",
+		    "RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release -p $1 || exit $?",
         "cp target/wasm32-unknown-unknown/release/${1//-/_}.wasm $L1X_CFG_ARTIFACTS/.",
         "docker-compose -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-ir",
         "docker-compose -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-bpf"
       ],
-      "compile_all": [
+	  "compile_all": [
         "echo 'Compiling all contract...'",
         "devbox run compile xtalk-nft-ad-flow-contract",
         "devbox run compile source-registry",
@@ -61,7 +61,7 @@
         "devbox run compile l1x-contract",
         "devbox run compile l1x-nft",
         "devbox run compile l1x-ft"
-      ],
+	  ],
       "11_clean": ["cargo clean", "rm -Rf $L1X_CFG_ARTIFACTS/*.*"],
       "11_clean_logs": ["rm -Rf ./devbox-services.log"]
     }
