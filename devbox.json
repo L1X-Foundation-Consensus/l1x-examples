@@ -1,7 +1,7 @@
 {
   "env": {
     "L1X_CFG_CHAIN_TYPE": "beta_mainnet",
-    "L1X_CFG_TOOLS": "kevincoutinho007/l1x-toolkit:0.1",
+    "L1X_CFG_TOOLS": "kevincoutinho007/l1x-toolkit:0.5",
     "L1X_CFG_ARTIFACTS": "./l1x-artifacts",
     "L1X_CFG_DC_FILE": "./devnet-services-dc.yml",
     "L1X_CFG_CASSANDRA1_DATA": "./l1x-conf/cassandra1_data",
@@ -16,31 +16,6 @@
         "if [ ! -d $L1X_CFG_ARTIFACTS ]; then mkdir $L1X_CFG_ARTIFACTS; fi",
         "if [ ! -d $L1X_CFG_CASSANDRA1_DATA ]; then mkdir $L1X_CFG_CASSANDRA1_DATA; fi",
         "if [ ! -d $L1X_CFG_CASSANDRA2_DATA ]; then mkdir $L1X_CFG_CASSANDRA2_DATA; fi"
-      ],
-      "start_devnode": [
-        "echo 'Start L1X devnode services...'",
-        "devbox run init_setup",
-        "devbox services up"
-      ],
-      "stop_devnode": [
-        "echo 'Stop L1X devnode services...'",
-        "devbox services stop",
-        "docker-compose -f $L1X_CFG_DC_FILE down",
-        "echo 'Stop L1X devnode services... Done!!!'"
-      ],
-      "prune_devnode": [
-        "echo 'Prune L1X devnode service resources...'",
-        "docker-compose -f $L1X_CFG_DC_FILE down",
-        "sudo rm -Rf $L1X_CFG_CASSANDRA1_DATA/*",
-        "sudo rm -Rf $L1X_CFG_CASSANDRA2_DATA/*"
-      ],
-      "check_chain_state": [
-        "echo 'Get L1X chain state...'",
-        "docker-compose -f $L1X_CFG_DC_FILE run --rm l1x-tools-get-chain-state"
-      ],
-      "check_devnet_db_state": [
-        "echo 'Get L1X chain state...'",
-        "cqlsh -e 'SELECT * FROM system.local;' $L1X_CFG_CASSANDRA_HOST $L1X_CFG_CASSANDRA_PORT"
       ],
       "compile": [
         "echo \"Compiling $1 contract...\"",
@@ -62,8 +37,8 @@
         "devbox run compile l1x-nft",
         "devbox run compile l1x-ft"
 	  ],
-      "11_clean": ["cargo clean", "rm -Rf $L1X_CFG_ARTIFACTS/*.*"],
-      "11_clean_logs": ["rm -Rf ./devbox-services.log"]
+      "clean": ["cargo clean", "rm -Rf $L1X_CFG_ARTIFACTS/*.*"],
+      "clean_logs": ["rm -Rf ./devbox-services.log"]
     }
   }
 }
