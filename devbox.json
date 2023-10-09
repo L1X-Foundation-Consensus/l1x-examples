@@ -1,5 +1,9 @@
 {
-  "packages": ["docker-compose@2.21.0"],
+  "packages": [
+    "docker-compose@2.21.0",
+    "clang_16@latest",
+    "libiconv@2.37"
+  ],
   "env": {
     "L1X_CFG_TOOLS": "kevincoutinho007/l1x-toolkit:0.5",
     "L1X_CFG_CHAIN_TYPE": "beta_mainnet",
