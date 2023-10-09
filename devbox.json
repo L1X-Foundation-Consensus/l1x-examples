@@ -1,12 +1,14 @@
 {
   "packages": [
+    "docker-compose@2.21.0",
     "clang_16@latest",
     "libiconv@2.37"
   ],
   "env": {
-    "L1X_CFG_CHAIN_TYPE": "beta_mainnet",
     "L1X_CFG_TOOLS": "kevincoutinho007/l1x-toolkit:0.5",
+    "L1X_CFG_CHAIN_TYPE": "beta_mainnet",
     "L1X_CFG_ARTIFACTS": "./l1x-artifacts",
+    "L1X_CFG_DC_CMD_INTF": "docker-compose",
     "L1X_CFG_DC_FILE": "./devnet-services-dc.yml",
     "L1X_CFG_CASSANDRA1_DATA": "./l1x-conf/cassandra1_data",
     "L1X_CFG_CASSANDRA2_DATA": "./l1x-conf/cassandra2_data",
@@ -15,21 +17,17 @@
   },
   "shell": {
     "scripts": {
-      "init_setup": [
-        "echo Initializing Setup",
-        "if [ ! -d $L1X_CFG_ARTIFACTS ]; then mkdir $L1X_CFG_ARTIFACTS; fi",
-        "if [ ! -d $L1X_CFG_CASSANDRA1_DATA ]; then mkdir $L1X_CFG_CASSANDRA1_DATA; fi",
-        "if [ ! -d $L1X_CFG_CASSANDRA2_DATA ]; then mkdir $L1X_CFG_CASSANDRA2_DATA; fi"
-      ],
+      "clean": ["cargo clean", "rm -Rf $L1X_CFG_ARTIFACTS/*.*"],
+      "clean_logs": ["rm -Rf ./devbox-services.log"],
       "compile": [
         "echo \"Compiling $1 contract...\"",
         "devbox run init_setup",
-		    "RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release -p $1 || exit $?",
+        "RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release -p $1 || exit $?",
         "cp target/wasm32-unknown-unknown/release/${1//-/_}.wasm $L1X_CFG_ARTIFACTS/.",
-        "docker-compose -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-ir",
-        "docker-compose -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-bpf"
+        "$L1X_CFG_DC_CMD_INTF -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-ir",
+        "$L1X_CFG_DC_CMD_INTF -f $L1X_CFG_DC_FILE run --rm -e INTF_ARG_CONTRACT=${1//-/_} l1x-tools-intf-gen-bpf"
       ],
-	  "compile_all": [
+      "compile_all": [
         "echo 'Compiling all contract...'",
         "devbox run compile xtalk-nft-ad-flow-contract",
         "devbox run compile source-registry",
@@ -40,9 +38,13 @@
         "devbox run compile l1x-contract",
         "devbox run compile l1x-nft",
         "devbox run compile l1x-ft"
-	  ],
-      "clean": ["cargo clean", "rm -Rf $L1X_CFG_ARTIFACTS/*.*"],
-      "clean_logs": ["rm -Rf ./devbox-services.log"]
+      ],
+      "init_setup": [
+        "echo Initializing Setup",
+        "if [ ! -d $L1X_CFG_ARTIFACTS ]; then mkdir $L1X_CFG_ARTIFACTS; fi",
+        "if [ ! -d $L1X_CFG_CASSANDRA1_DATA ]; then mkdir $L1X_CFG_CASSANDRA1_DATA; fi",
+        "if [ ! -d $L1X_CFG_CASSANDRA2_DATA ]; then mkdir $L1X_CFG_CASSANDRA2_DATA; fi"
+      ]
     }
   }
 }

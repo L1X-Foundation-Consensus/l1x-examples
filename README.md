@@ -14,6 +14,8 @@
 ### How to build
 ```bash
 devbox shell
+# Init the development workspace
+devbox run init_setup
 # compile the contract by the package name
 devbox run compile l1x-ft
 # OR compile all contracts
