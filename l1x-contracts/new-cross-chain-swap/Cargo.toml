@@ -1,5 +1,5 @@
 [package]
-name = "xtalk-swap-flow"
+name = "new-cross-chain-swap"
 version = "0.1.0"
 edition = "2021"
 
@@ -13,6 +13,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.9"
 base64 = "*"
-ethers = "2.0.8"
-getrandom = { version = "0.2", features = ["js"] }
+ethers = "2.0"
+getrandom = { version = "0.2.10", features = ["js"] }
 hex = "0.4"
+log = "0.4.20"

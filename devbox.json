@@ -31,7 +31,7 @@
         "echo 'Compiling all contract...'",
         "devbox run compile xtalk-nft-ad-flow-contract",
         "devbox run compile source-registry",
-        "devbox run compile xtalk-swap-flow",
+        "devbox run compile new-cross-chain-swap",
         "devbox run compile l1x-transfer-token",
         "devbox run compile l1x-cross-contract",
         "devbox run compile l1x-evm-cross-contract",

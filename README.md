@@ -9,7 +9,7 @@
 * **l1x-transfer-token** - example with native L1X tokens transfer
 * **source-registry** - example of a x-talk source registry contract
 * **xtalk-nft-ad-flow-contract** - example of a x-talk contract
-* **xtalk-swap-flow** - example of a x-talk contract
+* **new-cross-chain-swap** - example of a x-talk contract
 
 ### How to build
 ```bash

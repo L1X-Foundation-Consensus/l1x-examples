@@ -2026,6 +2026,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "new-cross-chain-swap"
+version = "0.1.0"
+dependencies = [
+ "base64 0.13.1",
+ "borsh",
+ "ethers",
+ "getrandom",
+ "hex",
+ "l1x-sdk",
+ "log",
+ "serde",
+ "serde_json",
+ "sha2 0.9.9",
+]
+
+[[package]]
 name = "new_debug_unreachable"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3798,21 +3814,6 @@ dependencies = [
  "l1x-sdk",
  "serde",
  "serde_json",
-]
-
-[[package]]
-name = "xtalk-swap-flow"
-version = "0.1.0"
-dependencies = [
- "base64 0.13.1",
- "borsh",
- "ethers",
- "getrandom",
- "hex",
- "l1x-sdk",
- "serde",
- "serde_json",
- "sha2 0.9.9",
 ]
 
 [[package]]
