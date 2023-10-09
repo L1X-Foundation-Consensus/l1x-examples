@@ -1,4 +1,39 @@
 {
   "lockfile_version": "1",
-  "packages": {}
+  "packages": {
+    "clang_16@latest": {
+      "last_modified": "2023-09-27T18:02:17Z",
+      "resolved": "github:NixOS/nixpkgs/517501bcf14ae6ec47efd6a17dda0ca8e6d866f9#clang_16",
+      "source": "devbox-search",
+      "version": "16.0.6",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/dcqiyljbz80n8g9qqylkkh8msak4lbdz-clang-wrapper-16.0.6"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/sf4qqlrbvx6q0n7x2af411kj8f6ivj5q-clang-wrapper-16.0.6"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/as91d122xvv9y62z2xqjhnf3db5mspv2-clang-wrapper-16.0.6"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/369625b7j1zjh9ha3lqa2vfmv475shli-clang-wrapper-16.0.6"
+        }
+      }
+    },
+    "libiconv@2.37": {
+      "last_modified": "2023-09-27T18:02:17Z",
+      "resolved": "github:NixOS/nixpkgs/517501bcf14ae6ec47efd6a17dda0ca8e6d866f9#libiconv",
+      "source": "devbox-search",
+      "version": "2.37",
+      "systems": {
+        "aarch64-linux": {
+          "store_path": "/nix/store/la9j4bk5ij2r3ligch6ps7m9aq0d3h76-glibc-iconv-2.37"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/km60vvxwdbfnfx522xcmisg4knz43hyr-glibc-iconv-2.37"
+        }
+      }
+    }
+  }
 }

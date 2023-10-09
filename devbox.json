@@ -1,4 +1,8 @@
 {
+  "packages": [
+    "clang_16@latest",
+    "libiconv@2.37"
+  ],
   "env": {
     "L1X_CFG_CHAIN_TYPE": "beta_mainnet",
     "L1X_CFG_TOOLS": "kevincoutinho007/l1x-toolkit:0.5",
